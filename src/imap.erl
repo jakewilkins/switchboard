@@ -361,13 +361,22 @@ clean({'*', [<<"OK">>, '[', <<"UIDVALIDITY">>, UIDValidity, ']' | _]}) ->
     {uidvalidity, UIDValidity};
 clean({'*', [<<"OK">>, '[', <<"UIDNEXT">>, UIDNext, ']' | _]}) ->
     {uidnext, UIDNext};
-clean({'*', [<<"OK">>, '[', <<"HIGHESTMODSEQ">>, HighestModSeq, ']' | _]}) ->
-    {highest_mod_seq, HighestModSeq};
-clean({'*', [<<"LIST">>, NameAttrs, {string, Delim}, {string, Name}]}) ->
-    {list, [{name_attrs, NameAttrs},
-            {delimiter, Delim},
-            {name, Name}]}.
-
+clean({'*', [<<"OK">>, '[', <<"URLMECH">>, URLMech, ']' | _]}) ->                
+    {urlMech, URLMech};                                                          
+clean({'*', [<<"OK">>, '[', <<"ANNOTATIONS">>, Annots, ']' | _]}) ->             
+    {annotations, Annots};                                                        
+clean({'*', [<<"OK">>, '[', <<"CLOSED">>, ']' | _]}) ->                           
+    {};                                                                           
+clean({'*', [<<"OK">>, '[', <<"HIGHESTMODSEQ">>, HighestModSeq, ']' | _]}) ->     
+    {highest_mod_seq, HighestModSeq};                                             
+clean({'*', [<<"LIST">>, NameAttrs, {string, Delim}, {string, Name}]}) ->         
+    {list, [{name_attrs, NameAttrs},                                             
+            {delimiter, Delim},                                                  
+            {name, Name}]};                                                      
+clean({'*', [<<"LIST">>, NameAttrs, {string, Delim}, Name]}) ->                  
+    {list, [{name_attrs, NameAttrs},                                             
+            {delimiter, Delim},                                                  
+            {name, Name}]}. 
 
 %% @doc Returns the fetch parts by type.
 get_parts_by_type({fetch, Props}, Type) ->
